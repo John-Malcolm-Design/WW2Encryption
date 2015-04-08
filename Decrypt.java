@@ -10,44 +10,56 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Decrypt {
-	
+
 	private static Map<String, String> polybiusDecrypt = new HashMap<String, String>();
-	private static ArrayList<Character> decryptedChars = new ArrayList<Character>();
-	
-	private static ColumnarTransposition decryptCT = new ColumnarTransposition("Java");
-	
+	private static ArrayList<String> decryptedChars = new ArrayList<String>();
+	private static ColumnarTransposition decryptCT;
+
+	public static ColumnarTransposition getDecryptCT() {
+		return decryptCT;
+	}
+
+	public static ArrayList<String> getDecryptedChars() {
+		return decryptedChars;
+	}
+
+	public static Map<String, String> getPolybiusDecrypt() {
+		return polybiusDecrypt;
+	}
+
 	// Methods
-	public static void decryptFile() throws IOException {
-		
-		decryptCT.initializeMatrix();
-		
+	public static void decryptFile(String key) throws IOException {
+		decryptCT = new ColumnarTransposition(key);
 		File file = new File("cipher.txt");
 		BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
-	
 		initialiseDecryptSquare();
-	
+		decryptCT.initializeMatrix();
+
 		String line = null;
 		int j = 0;
-		
+
 		while ((line = br.readLine()) != null) {
 			decryptCT.fillMatrix(line, j);
 			j++;
 		}
 		br.close();
-		
+
 		decryptCT.reverseTranspose();
-	}
-	
-	public static ColumnarTransposition getDecryptCT() {
-		return decryptCT;
+		fillDecryptedCharsArray();
 	}
 
-	public static void decryptLetter(char letter, int j) {
-		String current = polybiusDecrypt.get(Character.toString(letter).toUpperCase().trim());
-		decryptedChars.add(current.charAt(0));
-		decryptedChars.add(current.charAt(1));
+	public static void fillDecryptedCharsArray() {
+		for (int j = 0; j < decryptCT.getMatrix().get(0).getChars().size() -1; j++) {
+			for (int i = 0; i < decryptCT.getMatrix().size() -1; i++) {
+				Character keyOne= decryptCT.getMatrix().get(i).getChars().get(j);
+				Character keyTwo = decryptCT.getMatrix().get(++i).getChars().get(j);
+				
+				String currentKey = keyOne.toString() + keyTwo.toString();
+				decryptedChars.add(polybiusDecrypt.get(currentKey));
+			}
+		}
 	}
-	
+
 	private static void initialiseDecryptSquare() {
 		polybiusDecrypt.put("AA", "P"); 
 		polybiusDecrypt.put("AD", "H"); 
@@ -113,7 +125,7 @@ public class Decrypt {
 		polybiusDecrypt.put("ZV", "@");
 		polybiusDecrypt.put("ZY", "`");
 		polybiusDecrypt.put("ZZ", "^");
-		
+
 	}
 
 }

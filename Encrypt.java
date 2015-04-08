@@ -1,20 +1,49 @@
 package gmit;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Encrypt {
-	
+
 	private static Map<String, String> polybiusEncrypt = new HashMap<String, String>();
 	private static ArrayList<Character> encryptedChars = new ArrayList<Character>();
-	
-	// Getters & Setters
+	private static ColumnarTransposition encryptCT;
+
+	// Getters
+	public static ColumnarTransposition getEncryptCT() {
+		return encryptCT;
+	}
+
 	public static ArrayList<Character> getEncryptedChars() {
 		return encryptedChars;
 	}
 
 	// Methods
+	public static void encryptFile(String key, String fileUri) throws IOException {
+		encryptCT = new ColumnarTransposition(key);
+		File file = new File(fileUri);
+		BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+		encryptCT.initializeMatrix();
+		Encrypt.initialiseEncryptSquare();
+
+		String line = null;
+
+		while ((line = br.readLine()) != null) {
+			Encrypt.encryptLine(line);
+		}
+		br.close();
+		
+		encryptCT.fillMatrix();
+		encryptCT.transpose();
+		encryptCT.writeToFile();
+	}
+
 	public static void encryptLine(String line) {
 		// Splits into Words, wherever there are spaces.
 		String[] words = line.split(" ");

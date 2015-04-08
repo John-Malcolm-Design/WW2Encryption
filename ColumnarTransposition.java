@@ -43,10 +43,12 @@ public class ColumnarTransposition {
 
 	public void fillMatrix(String line, int j) {
 		int count = 0;
+
 		while (count < line.length() -1) {
 			matrix.get(j).getChars().add(line.charAt(count));
 			count++;
 		}
+
 	}
 
 	public void transpose() {
