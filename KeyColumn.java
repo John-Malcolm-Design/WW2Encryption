@@ -2,7 +2,7 @@ package gmit;
 
 import java.util.*;
 
-public class KeyColumn implements Comparable<KeyColumn>{
+public class KeyColumn {
 
 	// Class Members
 	private char keyCharacter;
@@ -38,16 +38,5 @@ public class KeyColumn implements Comparable<KeyColumn>{
 
 	public void setChars(List<Character> chars) {
 		this.chars = chars;
-	}
-
-	// Comparable Overrides
-	@Override
-	public int compareTo(KeyColumn o) {
-		if (this.getKeyCharacter() > o.getKeyCharacter()) {
-			return 1;
-		} else if (this.getKeyCharacter() < o.getKeyCharacter()) {
-			return -1;
-		}
-		return 0;		
 	}
 }

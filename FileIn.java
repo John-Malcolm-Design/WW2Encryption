@@ -13,7 +13,7 @@ public class FileIn {
 		File file = new File("SampleFiles/WarAndPeace-LeoTolstoy.txt");
 		BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
 
-		Encrypt.initialiseSquare();
+		Encrypt.initialiseEncryptSquare();
 
 		String line = null;
 
