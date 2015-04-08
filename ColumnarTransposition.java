@@ -8,6 +8,7 @@ import java.util.List;
 
 public class ColumnarTransposition {
 
+	// Class Members
 	private String key;
 	private ArrayList<Character> keyArray = new ArrayList<Character>();
 	private List<KeyColumn> matrix = new ArrayList<KeyColumn>();
@@ -44,10 +45,12 @@ public class ColumnarTransposition {
 	public void fillMatrix(String line, int j) {
 		int count = 0;
 
-		while (count < line.length() -1) {
+		while (count < line.length()) {
 			matrix.get(j).getChars().add(line.charAt(count));
 			count++;
 		}
+		
+		System.out.println(matrix.get(j).getChars().get(matrix.get(j).getChars().size() -1));
 
 	}
 

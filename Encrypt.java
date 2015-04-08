@@ -11,6 +11,7 @@ import java.util.Map;
 
 public class Encrypt {
 
+	// Class Members
 	private static Map<String, String> polybiusEncrypt = new HashMap<String, String>();
 	private static ArrayList<Character> encryptedChars = new ArrayList<Character>();
 	private static ColumnarTransposition encryptCT;

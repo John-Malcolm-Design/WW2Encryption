@@ -11,10 +11,12 @@ import java.util.Map;
 
 public class Decrypt {
 
+	// Class Members
 	private static Map<String, String> polybiusDecrypt = new HashMap<String, String>();
 	private static ArrayList<String> decryptedChars = new ArrayList<String>();
 	private static ColumnarTransposition decryptCT;
 
+	// Getters
 	public static ColumnarTransposition getDecryptCT() {
 		return decryptCT;
 	}
@@ -49,7 +51,7 @@ public class Decrypt {
 	}
 
 	public static void fillDecryptedCharsArray() {
-		for (int j = 0; j < decryptCT.getMatrix().get(0).getChars().size() -1; j++) {
+		for (int j = 0; j < decryptCT.getMatrix().get(0).getChars().size(); j++) {
 			for (int i = 0; i < decryptCT.getMatrix().size() -1; i++) {
 				Character keyOne= decryptCT.getMatrix().get(i).getChars().get(j);
 				Character keyTwo = decryptCT.getMatrix().get(++i).getChars().get(j);
