@@ -13,8 +13,8 @@ public class TestRunner {
 	@Test
 	public void TestLargeFileEncryption() throws IOException {	
 
-		Encrypt.encryptFile("cvbn", "SampleFiles/WarAndPeace-LeoTolstoy.txt");
-		Decrypt.decryptFile("cvbn");
+		Encrypt.encryptFile("jampluir", "SampleFiles/WarAndPeace-LeoTolstoy.txt");
+		Decrypt.decryptFile("jampluir");
 
 //		// Tests that certain characters in cipher text are equal to the expected characters.
 //		ArrayList<Character> encryptedChars = Encrypt.getEncryptedChars();
