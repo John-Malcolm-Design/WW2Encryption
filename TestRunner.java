@@ -13,8 +13,8 @@ public class TestRunner {
 	@Test
 	public void TestLargeFileEncryption() throws IOException {	
 
-		Encrypt.encryptFile("java", "SampleFiles/WarAndPeace-LeoTolstoy.txt");
-		Decrypt.decryptFile("java");
+		Encrypt.encryptFile("cvbn", "SampleFiles/WarAndPeace-LeoTolstoy.txt");
+		Decrypt.decryptFile("cvbn");
 
 //		// Tests that certain characters in cipher text are equal to the expected characters.
 //		ArrayList<Character> encryptedChars = Encrypt.getEncryptedChars();
@@ -26,19 +26,10 @@ public class TestRunner {
 //			assertThat(encryptedChars.get(i), is(testCharsCipher[i]));
 //		}
 //
-//		// Test that character duplication is not causing any issues
-//		// e.g - There are two "a"s in the keyword java.
-//		// Therefore the first "a" should be equal to index 1 and the second
-//		// "a" should be equal to index 3
-//		assertThat(Encrypt.getEncryptCT().getMatrix().get(0).getIndex(), is(1));
-//		assertThat(Encrypt.getEncryptCT().getMatrix().get(1).getIndex(), is(3));
-//		assertThat(Encrypt.getEncryptCT().getMatrix().get(2).getIndex(), is(0));
-//		assertThat(Encrypt.getEncryptCT().getMatrix().get(3).getIndex(), is(2));
-//
 //		// Test that reverse transpose on matrix for decryption is working correctly
 //		int count = 0;
 //		for (int i = 0; count < testCharsCipher.length -1; i++) {
-//			for (int j = 0; j < 4 && count < testCharsCipher.length -1; j++) {
+//			for (int j = 0; j < Decrypt.getDecryptCT().getMatrix().size() && count < testCharsCipher.length -1; j++) {
 //				assertThat(Decrypt.getDecryptCT().getMatrix().get(j).getChars().get(i), is(testCharsCipher[count++]));
 //			}
 //
@@ -51,10 +42,10 @@ public class TestRunner {
 		
 		// TESTING GOLD!!!
 		
-		System.out.println("Old Size of Decrypted Char Array Vs New Size");
-		System.out.println(2626466 + " " + Decrypt.getDecryptedChars().size());
+//		System.out.println("Old Size of Decrypted Char Array Vs New Size");
+//		System.out.println(2626466 + " " + Decrypt.getDecryptedChars().size());
 		
-		System.out.println("New Last Chars is Matrix values");
+		System.out.println("Last character of each column after reverse transposition");
 		System.out.println(Decrypt.getDecryptCT().getMatrix().get(0).getChars().get(Decrypt.getDecryptCT().getMatrix().get(0).getChars().size()-1));
 		System.out.println(Decrypt.getDecryptCT().getMatrix().get(1).getChars().get(Decrypt.getDecryptCT().getMatrix().get(1).getChars().size()-1));
 		System.out.println(Decrypt.getDecryptCT().getMatrix().get(2).getChars().get(Decrypt.getDecryptCT().getMatrix().get(2).getChars().size()-1));
@@ -66,5 +57,6 @@ public class TestRunner {
 		System.out.println(Decrypt.getDecryptedChars().get(Decrypt.getDecryptedChars().size()-3));
 		System.out.println(Decrypt.getDecryptedChars().get(Decrypt.getDecryptedChars().size()-2));
 		System.out.println(Decrypt.getDecryptedChars().get(Decrypt.getDecryptedChars().size()-1));
+		
 	}
 }

@@ -11,7 +11,11 @@ public class transposeComparator implements Comparator<KeyColumn> {
 			return 1;
 		} else if (o1.getKeyCharacter() < o2.getKeyCharacter()) {
 			return -1;
-		} 
+		} else if (o1.getKeyCharacter() == o2.getKeyCharacter() && o1.getIndex() > o2.getIndex()) {
+			return 1;
+		} else if (o1.getKeyCharacter() == o2.getKeyCharacter() && o1.getIndex() < o2.getIndex()) {
+			return -1;
+		}
 		return 0;
 	}
 }

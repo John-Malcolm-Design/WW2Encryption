@@ -11,6 +11,7 @@ public class ColumnarTransposition {
 	// Class Members
 	private String key;
 	private ArrayList<Character> keyArray = new ArrayList<Character>();
+	private ArrayList<Character> sortedKeyArray = new ArrayList<Character>();
 	private List<KeyColumn> matrix = new ArrayList<KeyColumn>();
 
 	public ColumnarTransposition(String key) {
@@ -26,11 +27,15 @@ public class ColumnarTransposition {
 
 		for (char c : key.toLowerCase().toCharArray()) {
 			keyArray.add(c);
+			sortedKeyArray.add(c);
 		}	
 
 		for (int i = 0; i < keyArray.size(); i++) {
 			matrix.add(new KeyColumn(keyArray.get(i), i));
 		}		
+
+		Collections.sort(sortedKeyArray);
+		System.out.println(sortedKeyArray);
 	}
 
 	public void fillMatrix() {
@@ -49,14 +54,26 @@ public class ColumnarTransposition {
 			matrix.get(j).getChars().add(line.charAt(count));
 			count++;
 		}
-		
+
 		System.out.println(matrix.get(j).getChars().get(matrix.get(j).getChars().size() -1));
 
+	}
+	
+	public void setCorrectIndexValues() {
+		for (int i = 0; i < keyArray.size(); i++) {
+			for (int j = 0; j < keyArray.size(); j++) {
+				if (sortedKeyArray.get(i) == keyArray.get(j)) {
+					matrix.get(i).setIndex(j);
+					keyArray.set(j, null);
+				}
+			}
+		}
 	}
 
 	public void transpose() {
 		Collections.sort(matrix, new transposeComparator());
 	}
+
 
 	public void reverseTranspose() {
 		Collections.sort(matrix, new reverseTransposeComparator());

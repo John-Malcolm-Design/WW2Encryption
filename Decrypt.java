@@ -40,17 +40,36 @@ public class Decrypt {
 		String line = null;
 		int j = 0;
 
+		System.out.println("Last character of each column after initial transposition");
 		while ((line = br.readLine()) != null) {
 			decryptCT.fillMatrix(line, j);
 			j++;
 		}
 		br.close();
-
+		
+		decryptCT.setCorrectIndexValues();
 		decryptCT.reverseTranspose();
 		fillDecryptedCharsArray();
 	}
 
 	public static void fillDecryptedCharsArray() {
+//		int sizeOfMatrix = 0;
+//		for (int i = 0; i < decryptCT.getMatrix().size(); i++) {
+//			sizeOfMatrix = sizeOfMatrix + decryptCT.getMatrix().get(i).getChars().size();
+//		}
+//		
+//		int count = 0;
+//		while (count < sizeOfMatrix) {
+//			for (int i = 0; i < decryptCT.getMatrix().size() -1; i++) {
+//				Character keyOne= decryptCT.getMatrix().get(i).getChars().get(count);
+//				Character keyTwo = decryptCT.getMatrix().get(++i).getChars().get(count);
+//				
+//				String currentKey = keyOne.toString() + keyTwo.toString();
+//				decryptedChars.add(polybiusDecrypt.get(currentKey));
+//				count = count +2;
+//			}
+//		}
+////		
 		for (int j = 0; j < decryptCT.getMatrix().get(0).getChars().size(); j++) {
 			for (int i = 0; i < decryptCT.getMatrix().size() -1; i++) {
 				Character keyOne= decryptCT.getMatrix().get(i).getChars().get(j);
@@ -60,6 +79,9 @@ public class Decrypt {
 				decryptedChars.add(polybiusDecrypt.get(currentKey));
 			}
 		}
+		
+		// System.out.println(sizeOfMatrix);
+		
 	}
 
 	private static void initialiseDecryptSquare() {
