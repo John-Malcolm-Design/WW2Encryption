@@ -59,12 +59,6 @@ public class Decrypt {
 
 	public static void fillDecryptedCharsArray() {
 		int numberOfRows = messageSize / decryptCT.getMatrix().size();
-		//		if (messageSize % decryptCT.getMatrix().size() != 0) {
-		//			numberOfRows = numberOfRows + 1;
-		//		}
-
-		System.out.println(numberOfRows);
-
 		int count = 0;
 		while (count < numberOfRows) {
 			for (int i = 0; i < decryptCT.getMatrix().size() -1; i++) {
@@ -85,44 +79,19 @@ public class Decrypt {
 				p++;
 
 			}
-		}
+			
+			for (int k = 0; k < lastRow.size(); k++) {
+				System.out.println(lastRow.get(k));
+				
+				Character keyOne= lastRow.get(k);
+				Character keyTwo = lastRow.get(++k);
 
-		for (int k = 0; k < lastRow.size(); k++) {
-			System.out.println(lastRow.get(k));
+				String currentKey = keyOne.toString() + keyTwo.toString();
+				decryptedChars.add(polybiusDecrypt.get(currentKey));
+			}
 		}
 
 		System.out.println("Size of last row: " + lastRow.size());
-
-
-
-		//		int sizeOfMatrix = 0;
-		//		for (int i = 0; i < decryptCT.getMatrix().size(); i++) {
-		//			sizeOfMatrix = sizeOfMatrix + decryptCT.getMatrix().get(i).getChars().size();
-		//		}
-		//		
-		//		int count = 0;
-		//		while (count < sizeOfMatrix) {
-		//			for (int i = 0; i < decryptCT.getMatrix().size() -1; i++) {
-		//				Character keyOne= decryptCT.getMatrix().get(i).getChars().get(count);
-		//				Character keyTwo = decryptCT.getMatrix().get(++i).getChars().get(count);
-		//				
-		//				String currentKey = keyOne.toString() + keyTwo.toString();
-		//				decryptedChars.add(polybiusDecrypt.get(currentKey));
-		//				count = count +2;
-		//			}
-		//		}
-		////		
-		//		for (int j = 0; j < decryptCT.getMatrix().get(0).getChars().size(); j++) {
-		//			for (int i = 0; i < decryptCT.getMatrix().size() -1; i++) {
-		//				Character keyOne= decryptCT.getMatrix().get(i).getChars().get(j);
-		//				Character keyTwo = decryptCT.getMatrix().get(++i).getChars().get(j);
-		//				
-		//				String currentKey = keyOne.toString() + keyTwo.toString();
-		//				decryptedChars.add(polybiusDecrypt.get(currentKey));
-		//			}
-		//		}
-
-		// System.out.println(sizeOfMatrix);
 
 	}
 
