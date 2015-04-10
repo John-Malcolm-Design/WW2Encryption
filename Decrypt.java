@@ -60,39 +60,66 @@ public class Decrypt {
 	public static void fillDecryptedCharsArray() {
 		int numberOfRows = messageSize / decryptCT.getMatrix().size();
 		int count = 0;
-		while (count < numberOfRows) {
-			for (int i = 0; i < decryptCT.getMatrix().size() -1; i++) {
-				Character keyOne= decryptCT.getMatrix().get(i).getChars().get(count);
-				Character keyTwo = decryptCT.getMatrix().get(++i).getChars().get(count);
+		ArrayList<Character> keysOddNumber = new ArrayList<Character>();	
+		if (decryptCT.getMatrix().size() % 2 != 0) {
+			while (count < numberOfRows) {
+				for (int i = 0; i < decryptCT.getMatrix().size(); i++) {
+					keysOddNumber.add(decryptCT.getMatrix().get(i).getChars().get(count));
+				}	
+				count++;
+			}
 
-				String currentKey = keyOne.toString() + keyTwo.toString();
+			//			ArrayList<Character> lastRow2 = new ArrayList<Character>();
+			if (messageSize % decryptCT.getMatrix().size() != 0) {
+				int p = 0;
+				while (decryptCT.getMatrix().get(p).getChars().size() == (numberOfRows +1) && p < decryptCT.getMatrix().size()) {
+					keysOddNumber.add(decryptCT.getMatrix().get(p).getChars().get(count));
+					p++;
+
+				}
+			}
+			int count2 = 0;
+			while (count2 < keysOddNumber.size()) {
+				String currentKey = (keysOddNumber.get(count2).toString() + keysOddNumber.get(++count2).toString());
 				decryptedChars.add(polybiusDecrypt.get(currentKey));
-			}	
-			count++;
-		}
-
-		ArrayList<Character> lastRow = new ArrayList<Character>();
-		if (messageSize % decryptCT.getMatrix().size() != 0) {
-			int p = 0;
-			while (decryptCT.getMatrix().get(p).getChars().size() == (numberOfRows +1) && p < decryptCT.getMatrix().size()) {
-				lastRow.add(decryptCT.getMatrix().get(p).getChars().get(count));
-				p++;
+				count2++;
 
 			}
-			
-			for (int k = 0; k < lastRow.size(); k++) {
-				System.out.println(lastRow.get(k));
-				
-				Character keyOne= lastRow.get(k);
-				Character keyTwo = lastRow.get(++k);
 
-				String currentKey = keyOne.toString() + keyTwo.toString();
-				decryptedChars.add(polybiusDecrypt.get(currentKey));
-			}
+
 		}
+		else{
+			while (count < numberOfRows) {
+				for (int i = 0; i < decryptCT.getMatrix().size() -1; i++) {
+					Character keyOne= decryptCT.getMatrix().get(i).getChars().get(count);
+					Character keyTwo = decryptCT.getMatrix().get(++i).getChars().get(count);
 
-		System.out.println("Size of last row: " + lastRow.size());
+					String currentKey = keyOne.toString() + keyTwo.toString();
+					decryptedChars.add(polybiusDecrypt.get(currentKey));
+				}	
+				count++;
+			}
+			ArrayList<Character> lastRow = new ArrayList<Character>();
+			if (messageSize % decryptCT.getMatrix().size() != 0) {
+				int p = 0;
+				while (decryptCT.getMatrix().get(p).getChars().size() == (numberOfRows +1) && p < decryptCT.getMatrix().size()) {
+					lastRow.add(decryptCT.getMatrix().get(p).getChars().get(count));
+					p++;
 
+				}
+
+				for (int k = 0; k < lastRow.size(); k++) {
+					System.out.println(lastRow.get(k));
+
+					Character keyOne= lastRow.get(k);
+					Character keyTwo = lastRow.get(++k);
+
+					String currentKey = keyOne.toString() + keyTwo.toString();
+					decryptedChars.add(polybiusDecrypt.get(currentKey));
+				}
+			}
+			System.out.println("Size of last row: " + lastRow.size());
+		}
 	}
 
 	private static void initialiseDecryptSquare() {
