@@ -2,7 +2,14 @@ package gmit;
 
 import java.util.Comparator;
 
-public class transposeComparator implements Comparator<KeyColumn> {
+/*
+ * TRANSPOSE COMPARATOR CLASS
+ * 
+ * Implement Comparator and used for columnar tranposition during encryption.
+ * 
+ */
+
+public class TransposeComparator implements Comparator<KeyColumn> {
 
 	// Comparator Overrides
 	@Override

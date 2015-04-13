@@ -5,17 +5,28 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/*
+ * DECRYPT CLASS
+ * 
+ * This class contains the HashMap used for the polybius square, the character ArrayList which will be filled with
+ * the decrypted characters from the polybius square and the columnar transosition object which holds the matrix 
+ * and allows us to perform operations on like columnar transposition. There is also a variable for the message size which is needed
+ * to properly perform reverse columnar transposition.
+ */
+
 public class Decrypt {
 
-	// Class Members
+	// Used for polybius square
 	private static Map<String, String> polybiusDecrypt = new HashMap<String, String>();
+	// Used for decrypted characters
 	private static ArrayList<String> decryptedChars = new ArrayList<String>();
+	// Used for matrix and columnar transposition
 	private static ColumnarTransposition decryptCT;
+	// Used for reverse columnar transposition
 	private static int messageSize;
 
 	// Getters
@@ -31,74 +42,123 @@ public class Decrypt {
 		return polybiusDecrypt;
 	}
 
-	// Methods
-	public static void decryptFile(String key) throws IOException {
+	// Master decryption method. This method created the neccesary objects and calls the
+	// functions for each step of the encryption from start to finish.
+	public static void decryptFile(String key, String fileUrl, String fileName) throws IOException {
+
+		// New Columnar Transposition object
 		decryptCT = new ColumnarTransposition(key);
-		File file = new File("cipher.txt");
+
+		// File and buffered reader
+		File file = new File(fileUrl);
 		BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
-		initialiseDecryptSquare();
+
+		// Initializes matrix
 		decryptCT.initializeMatrix();
 
-		String line = null;
+		// Initializes Polybius Square
+		initPolybiusSquare();
+
+		// Initialzes j which is used to loop through each column in matrix
+		// and also the message size variable used for reverse columnar transposition
 		int j = 0;
 		messageSize = 0;
 
-		System.out.println("Last character of each column after initial transposition");
+		// Splits file into lines and calls encrypt line method
+		String line = null;
 		while ((line = br.readLine()) != null) {
+			// Fills the matrix with the cipher text from the file.
+			// Fills matrix column by column using j as a control
 			decryptCT.fillMatrix(line, j);
+
+			// Updates message size variables line by line
 			messageSize = messageSize + line.length();
+
+			// Increments j which is used for controlling column we are filling
 			j++;
 		}
 		br.close();
 
+		// Sets correct index values as per sorted keyword
 		decryptCT.setCorrectIndexValues();
+
+		// Reverses transposition
 		decryptCT.reverseTranspose();
+
+		// Fills decrypted character array with the decrypted text from the polybius square
 		fillDecryptedCharsArray();
-		System.out.println(messageSize);
+
+		// Writes decrpted text to file
+		decryptCT.writeToFileDecrypted(fileName);
 	}
 
+	// Further decrypts matrix using polybius square and then fills the character array 
+	// with decrypted text
 	public static void fillDecryptedCharsArray() {
+
+		// Calculates number of rows
 		int numberOfRows = messageSize / decryptCT.getMatrix().size();
+
+		// Initilizes count used for putting each character through polybius square
 		int count = 0;
+
+		// Arraylist used for each chacter in matrix if keyword size is not an even number.
+		// This is needed as each 2 characters in cipher text maps to one real character
 		ArrayList<Character> keysOddNumber = new ArrayList<Character>();	
+
+		// Checks to see if keyword size is odd number 
+		// If so adds the characters to a character arraylist
 		if (decryptCT.getMatrix().size() % 2 != 0) {
+
+			// While the count is less than the number of rows
 			while (count < numberOfRows) {
+
+				// Fills the arraylist with values from matrix
 				for (int i = 0; i < decryptCT.getMatrix().size(); i++) {
 					keysOddNumber.add(decryptCT.getMatrix().get(i).getChars().get(count));
 				}	
 				count++;
+
 			}
 
-			//			ArrayList<Character> lastRow2 = new ArrayList<Character>();
+			// Checks to see if there is an extra row
+			// If there is an extra row these values are added to the character arraylist as per above.
 			if (messageSize % decryptCT.getMatrix().size() != 0) {
 				int p = 0;
 				while (decryptCT.getMatrix().get(p).getChars().size() == (numberOfRows +1) && p < decryptCT.getMatrix().size()) {
 					keysOddNumber.add(decryptCT.getMatrix().get(p).getChars().get(count));
 					p++;
-
 				}
 			}
+
+			// Maps each character pair in arraylist created above to decrypted character
 			int count2 = 0;
 			while (count2 < keysOddNumber.size()) {
 				String currentKey = (keysOddNumber.get(count2).toString() + keysOddNumber.get(++count2).toString());
 				decryptedChars.add(polybiusDecrypt.get(currentKey));
 				count2++;
-
 			}
-
-
 		}
+
+		// Code below runs if the keyowrd size is an even number
 		else{
+			
+			// While the count is smaller than the number of rows
 			while (count < numberOfRows) {
+				
+				// Fills a decrypted character arraylist after passing matrix through
+				// polybius square.
 				for (int i = 0; i < decryptCT.getMatrix().size() -1; i++) {
 					Character keyOne= decryptCT.getMatrix().get(i).getChars().get(count);
 					Character keyTwo = decryptCT.getMatrix().get(++i).getChars().get(count);
-
 					String currentKey = keyOne.toString() + keyTwo.toString();
 					decryptedChars.add(polybiusDecrypt.get(currentKey));
 				}	
 				count++;
 			}
+			
+			// Checks to see if there is an extra row
+			// If there is an extra row these values are added to the character arraylist as per above.
 			ArrayList<Character> lastRow = new ArrayList<Character>();
 			if (messageSize % decryptCT.getMatrix().size() != 0) {
 				int p = 0;
@@ -107,10 +167,10 @@ public class Decrypt {
 					p++;
 
 				}
-
+				
+				// Adds text from last row through polybius square 
+				// and to decrypted chars arrayslist
 				for (int k = 0; k < lastRow.size(); k++) {
-					System.out.println(lastRow.get(k));
-
 					Character keyOne= lastRow.get(k);
 					Character keyTwo = lastRow.get(++k);
 
@@ -118,11 +178,11 @@ public class Decrypt {
 					decryptedChars.add(polybiusDecrypt.get(currentKey));
 				}
 			}
-			System.out.println("Size of last row: " + lastRow.size());
 		}
 	}
 
-	private static void initialiseDecryptSquare() {
+	// Polybius Square Initialization
+	private static void initPolybiusSquare() {
 		polybiusDecrypt.put("AA", "P"); 
 		polybiusDecrypt.put("AD", "H"); 
 		polybiusDecrypt.put("AF", "0");

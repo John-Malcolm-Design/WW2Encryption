@@ -1,6 +1,7 @@
 package gmit;
 
 import java.io.BufferedReader;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -9,11 +10,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Encrypt {
+/*
+ * ENCRYPT CLASS
+ * 
+ * This class contains the HashMap used for the polybius square, the character ArrayList which will be filled with
+ * the encrypted characters from the polybius square and the columnar transosition object which holds the matrix 
+ * and allows us to perform operations on like columnar transposition.
+ */
 
-	// Class Members
+public class Encrypt {
+	
+	// Used for polybius square
 	private static Map<String, String> polybiusEncrypt = new HashMap<String, String>();
+	// Used for encrypted characters
 	private static ArrayList<Character> encryptedChars = new ArrayList<Character>();
+	// Used for matrix and columnar transposition
 	private static ColumnarTransposition encryptCT;
 
 	// Getters
@@ -25,47 +36,70 @@ public class Encrypt {
 		return encryptedChars;
 	}
 
-	// Methods
-	public static void encryptFile(String key, String fileUri) throws IOException {
+	// Master encryption method. This method created the neccesary objects and calls the
+	// functions for each step of the encryption from start to finish.
+	public static void encryptFile(String key, String fileUri, String fileName) throws IOException {
+
+		// New Columnar Transposition object
 		encryptCT = new ColumnarTransposition(key);
+
+		// File and buffered reader
 		File file = new File(fileUri);
 		BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+
+		// Initializes matrix
 		encryptCT.initializeMatrix();
-		Encrypt.initialiseEncryptSquare();
 
+		// Initializes Polybius Square
+		Encrypt.initPolybiusSquare();
+
+		// Splits file into lines and calls encrypt line method
 		String line = null;
-
 		while ((line = br.readLine()) != null) {
 			Encrypt.encryptLine(line);
 		}
 		br.close();
-		
+
+		// Fills the matrix with the cipher text from polybius square
 		encryptCT.fillMatrix();
+
+		// Transposes columns
 		encryptCT.transpose();
-		encryptCT.writeToFile();
+
+		// Writes cipher text to file
+		encryptCT.writeToFile(fileName);
 	}
 
 	public static void encryptLine(String line) {
-		// Splits into Words, wherever there are spaces.
+		// Splits into Words, wherever there are spaces and puts words into array
 		String[] words = line.split(" ");
 
+		// Loops through array of words
 		for (int i = 0; i < words.length; i++) {
 			String word = words[i];
+
+			// Loops through each word and calls encrypt letter function on each letter
 			for (int j = 0; j < word.length(); j++) {
 				char letter = word.charAt(j);
-				encryptLetter(letter, j);
+				encryptLetter(letter);
 			}
+
+			// Gets cipher text for space and adds to cipher text character arraylist
+			String current = polybiusEncrypt.get(" ");
+			encryptedChars.add(current.charAt(0));
+			encryptedChars.add(current.charAt(1));
 		}
 	}
 
-	public static void encryptLetter(char letter, int j) {
+	// Encrypts each letter by getting the string from the polybius.
+	public static void encryptLetter(char letter) {
 		String current = polybiusEncrypt.get(Character.toString(letter).toUpperCase().trim());
 		encryptedChars.add(current.charAt(0));
 		encryptedChars.add(current.charAt(1));
 	}
 
-	// Polybius Square Initialization using HashMaps
-	public static void initialiseEncryptSquare() {
+	// Polybius Square Initialization
+	public static void initPolybiusSquare() {
 		polybiusEncrypt.put("P", "AA");
 		polybiusEncrypt.put("H", "AD");
 		polybiusEncrypt.put("0", "AF");
