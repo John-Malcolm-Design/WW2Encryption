@@ -24,9 +24,9 @@ import java.util.Map;
 public class Decrypt {
 
 	// Used for polybius square
-	private static Map<String, String> polybiusDecrypt = new HashMap<String, String>();
+	private static Map<String, Character> polybiusDecrypt = new HashMap<String, Character>();
 	// Used for decrypted characters
-	private static ArrayList<String> decryptedChars = new ArrayList<String>();
+	private static ArrayList<Character> decryptedChars = new ArrayList<Character>();
 	// Used for matrix and columnar transposition
 	private static ColumnarTransposition decryptCT;
 	// Used for reverse columnar transposition
@@ -37,11 +37,11 @@ public class Decrypt {
 		return decryptCT;
 	}
 
-	public static ArrayList<String> getDecryptedChars() {
+	public static ArrayList<Character> getDecryptedChars() {
 		return decryptedChars;
 	}
 
-	public static Map<String, String> getPolybiusDecrypt() {
+	public static Map<String, Character> getPolybiusDecrypt() {
 		return polybiusDecrypt;
 	}
 
@@ -138,7 +138,7 @@ public class Decrypt {
 			// Maps each character pair in arraylist created above to decrypted character
 			int count2 = 0;
 			while (count2 < keysOddNumber.size()) {
-				String currentKey = (keysOddNumber.get(count2).toString() + keysOddNumber.get(++count2).toString());
+				String currentKey = new StringBuilder().append(keysOddNumber.get(count2)).append(keysOddNumber.get(++count2)).toString();
 				decryptedChars.add(polybiusDecrypt.get(currentKey));
 				count2++;
 			}
@@ -153,9 +153,7 @@ public class Decrypt {
 				// Fills a decrypted character arraylist after passing matrix through
 				// polybius square.
 				for (int i = 0; i < decryptCT.getMatrix().size() -1; i++) {
-					Character keyOne= decryptCT.getMatrix().get(i).getChars().get(count);
-					Character keyTwo = decryptCT.getMatrix().get(++i).getChars().get(count);
-					String currentKey = keyOne.toString() + keyTwo.toString();
+					String currentKey = new StringBuilder().append(decryptCT.getMatrix().get(i).getChars().get(count)).append(decryptCT.getMatrix().get(++i).getChars().get(count)).toString();
 					decryptedChars.add(polybiusDecrypt.get(currentKey));
 				}	
 				count++;
@@ -175,10 +173,7 @@ public class Decrypt {
 				// Adds text from last row through polybius square 
 				// and to decrypted chars arrayslist
 				for (int k = 0; k < lastRow.size(); k++) {
-					Character keyOne= lastRow.get(k);
-					Character keyTwo = lastRow.get(++k);
-
-					String currentKey = keyOne.toString() + keyTwo.toString();
+					String currentKey = new StringBuilder().append(lastRow.get(k)).append(lastRow.get(++k)).toString();
 					decryptedChars.add(polybiusDecrypt.get(currentKey));
 				}
 			}
@@ -188,70 +183,70 @@ public class Decrypt {
 	// Polybius Square Initialization
 	// Big O: Best = O(N). Worst = 0(N)*
 	private static void initPolybiusSquare() {
-		polybiusDecrypt.put("AA", "P"); 
-		polybiusDecrypt.put("AD", "H"); 
-		polybiusDecrypt.put("AF", "0");
-		polybiusDecrypt.put("AG", "Q"); 
-		polybiusDecrypt.put("AV", "6"); 
-		polybiusDecrypt.put("AX", "G"); 
-		polybiusDecrypt.put("DA", "4");
-		polybiusDecrypt.put("DD", "M"); 
-		polybiusDecrypt.put("DF", "E");
-		polybiusDecrypt.put("DG", "A");
-		polybiusDecrypt.put("DV", "Y"); 
-		polybiusDecrypt.put("DX", "1"); 
-		polybiusDecrypt.put("FA", "L"); 
-		polybiusDecrypt.put("FD", "2"); 
-		polybiusDecrypt.put("FF", "N"); 
-		polybiusDecrypt.put("FG", "O"); 
-		polybiusDecrypt.put("FV", "D"); 
-		polybiusDecrypt.put("FX", "F"); 
-		polybiusDecrypt.put("GA", "X"); 
-		polybiusDecrypt.put("GD", "K"); 
-		polybiusDecrypt.put("GF", "R"); 
-		polybiusDecrypt.put("GG", "3"); 
-		polybiusDecrypt.put("GV", "V"); 
-		polybiusDecrypt.put("GX", "C"); 
-		polybiusDecrypt.put("VA", "J");
-		polybiusDecrypt.put("VD", "9");
-		polybiusDecrypt.put("VF", "U");
-		polybiusDecrypt.put("VG", "T");
-		polybiusDecrypt.put("VV", "8");
-		polybiusDecrypt.put("VX", "I");
-		polybiusDecrypt.put("XA", "S");
-		polybiusDecrypt.put("XD", "5");
-		polybiusDecrypt.put("XF", "Z");
-		polybiusDecrypt.put("XG", "W");
-		polybiusDecrypt.put("XV", "B");
-		polybiusDecrypt.put("XX", "7");
-		polybiusDecrypt.put("YA", "-");
-		polybiusDecrypt.put("YD", ".");
-		polybiusDecrypt.put("YF", "(");
-		polybiusDecrypt.put("YG", ")");
-		polybiusDecrypt.put("YX", ",");
-		polybiusDecrypt.put("YV", "?");
-		polybiusDecrypt.put("YY", "!");
-		polybiusDecrypt.put("AY", ";");
-		polybiusDecrypt.put("DY", ":");
-		polybiusDecrypt.put("FY", "_");
-		polybiusDecrypt.put("GY", "/");
-		polybiusDecrypt.put("XY", "=");
-		polybiusDecrypt.put("VY", "*");
-		polybiusDecrypt.put("AZ", "\"");
-		polybiusDecrypt.put("DZ", " "); 
-		polybiusDecrypt.put("FZ", "&"); 
-		polybiusDecrypt.put("GZ", "'"); 
-		polybiusDecrypt.put("XZ", "|"); 
-		polybiusDecrypt.put("VZ", "~"); 
-		polybiusDecrypt.put("YZ", "#"); 
-		polybiusDecrypt.put("ZA", "£");
-		polybiusDecrypt.put("ZD", "Û");
-		polybiusDecrypt.put("ZF", "$");
-		polybiusDecrypt.put("ZG", "<");
-		polybiusDecrypt.put("ZX", ">");
-		polybiusDecrypt.put("ZV", "@");
-		polybiusDecrypt.put("ZY", "`");
-		polybiusDecrypt.put("ZZ", "^");
+		polybiusDecrypt.put("AA", 'P'); 
+		polybiusDecrypt.put("AD", 'H'); 
+		polybiusDecrypt.put("AF", '0');
+		polybiusDecrypt.put("AG", 'Q'); 
+		polybiusDecrypt.put("AV", '6'); 
+		polybiusDecrypt.put("AX", 'G'); 
+		polybiusDecrypt.put("DA", '4');
+		polybiusDecrypt.put("DD", 'M'); 
+		polybiusDecrypt.put("DF", 'E');
+		polybiusDecrypt.put("DG", 'A');
+		polybiusDecrypt.put("DV", 'Y'); 
+		polybiusDecrypt.put("DX", '1'); 
+		polybiusDecrypt.put("FA", 'L'); 
+		polybiusDecrypt.put("FD", '2'); 
+		polybiusDecrypt.put("FF", 'N'); 
+		polybiusDecrypt.put("FG", 'O'); 
+		polybiusDecrypt.put("FV", 'D'); 
+		polybiusDecrypt.put("FX", 'F'); 
+		polybiusDecrypt.put("GA", 'X'); 
+		polybiusDecrypt.put("GD", 'K'); 
+		polybiusDecrypt.put("GF", 'R'); 
+		polybiusDecrypt.put("GG", '3'); 
+		polybiusDecrypt.put("GV", 'V'); 
+		polybiusDecrypt.put("GX", 'C'); 
+		polybiusDecrypt.put("VA", 'J');
+		polybiusDecrypt.put("VD", '9');
+		polybiusDecrypt.put("VF", 'U');
+		polybiusDecrypt.put("VG", 'T');
+		polybiusDecrypt.put("VV", '8');
+		polybiusDecrypt.put("VX", 'I');
+		polybiusDecrypt.put("XA", 'S');
+		polybiusDecrypt.put("XD", '5');
+		polybiusDecrypt.put("XF", 'Z');
+		polybiusDecrypt.put("XG", 'W');
+		polybiusDecrypt.put("XV", 'B');
+		polybiusDecrypt.put("XX", '7');
+		polybiusDecrypt.put("YA", '-');
+		polybiusDecrypt.put("YD", '.');
+		polybiusDecrypt.put("YF", '(');
+		polybiusDecrypt.put("YG", ')');
+		polybiusDecrypt.put("YX", ',');
+		polybiusDecrypt.put("YV", '?');
+		polybiusDecrypt.put("YY", '!');
+		polybiusDecrypt.put("AY", ';');
+		polybiusDecrypt.put("DY", ':');
+		polybiusDecrypt.put("FY", '_');
+		polybiusDecrypt.put("GY", '/');
+		polybiusDecrypt.put("XY", '=');
+		polybiusDecrypt.put("VY", '*');
+		polybiusDecrypt.put("AZ", '"');
+		polybiusDecrypt.put("DZ", ' '); 
+		polybiusDecrypt.put("FZ", '&'); 
+		polybiusDecrypt.put("GZ", '\''); 
+		polybiusDecrypt.put("XZ", '|'); 
+		polybiusDecrypt.put("VZ", '~'); 
+		polybiusDecrypt.put("YZ", '#'); 
+		polybiusDecrypt.put("ZA", '£');
+		polybiusDecrypt.put("ZD", 'Û');
+		polybiusDecrypt.put("ZF", '$');
+		polybiusDecrypt.put("ZG", '<');
+		polybiusDecrypt.put("ZX", '>');
+		polybiusDecrypt.put("ZV", '@');
+		polybiusDecrypt.put("ZY", '`');
+		polybiusDecrypt.put("ZZ", '^');
 
 	}
 }

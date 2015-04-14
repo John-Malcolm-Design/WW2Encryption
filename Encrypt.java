@@ -24,7 +24,7 @@ import java.util.Map;
 public class Encrypt {
 	
 	// Used for polybius square
-	private static Map<String, String> polybiusEncrypt = new HashMap<String, String>();
+	private static Map<Character, String> polybiusEncrypt = new HashMap<Character, String>();
 	// Used for encrypted characters
 	private static ArrayList<Character> encryptedChars = new ArrayList<Character>();
 	// Used for matrix and columnar transposition
@@ -59,7 +59,7 @@ public class Encrypt {
 		// Splits file into lines and calls encrypt line method
 		String line = null;
 		while ((line = br.readLine()) != null) {
-			Encrypt.encryptLine(line);
+			Encrypt.encryptLine(line.toUpperCase());
 		}
 		br.close();
 
@@ -87,12 +87,12 @@ public class Encrypt {
 
 			// Loops through each word and calls encrypt letter function on each letter
 			for (int j = 0; j < word.length(); j++) {
-				char letter = word.charAt(j);
+				Character letter = word.charAt(j);
 				encryptLetter(letter);
 			}
 
 			// Gets cipher text for space and adds to cipher text character arraylist
-			String current = polybiusEncrypt.get(" ");
+			String current = polybiusEncrypt.get(' ');
 			encryptedChars.add(current.charAt(0));
 			encryptedChars.add(current.charAt(1));
 		}
@@ -101,7 +101,7 @@ public class Encrypt {
 	// Encrypts each letter by getting the string from the polybius.
 	// Big O: Best = O(N), Worst = O(N)
 	public static void encryptLetter(char letter) {
-		String current = polybiusEncrypt.get(Character.toString(letter).toUpperCase().trim());
+		String current = polybiusEncrypt.get(letter);
 		encryptedChars.add(current.charAt(0));
 		encryptedChars.add(current.charAt(1));
 	}
@@ -109,69 +109,69 @@ public class Encrypt {
 	// Polybius Square Initialization
 	// Big O: Best = O(N). Worst = 0(N)*
 	public static void initPolybiusSquare() {
-		polybiusEncrypt.put("P", "AA");
-		polybiusEncrypt.put("H", "AD");
-		polybiusEncrypt.put("0", "AF");
-		polybiusEncrypt.put("Q", "AG");
-		polybiusEncrypt.put("G", "AX");
-		polybiusEncrypt.put("6", "AV");
-		polybiusEncrypt.put("4", "DA");
-		polybiusEncrypt.put("M", "DD");
-		polybiusEncrypt.put("E", "DF");
-		polybiusEncrypt.put("A", "DG");
-		polybiusEncrypt.put("1", "DX");
-		polybiusEncrypt.put("Y", "DV");
-		polybiusEncrypt.put("L", "FA");
-		polybiusEncrypt.put("2", "FD");
-		polybiusEncrypt.put("N", "FF");
-		polybiusEncrypt.put("O", "FG");
-		polybiusEncrypt.put("F", "FX");
-		polybiusEncrypt.put("D", "FV");
-		polybiusEncrypt.put("X", "GA");
-		polybiusEncrypt.put("K", "GD");
-		polybiusEncrypt.put("R", "GF");
-		polybiusEncrypt.put("3", "GG");
-		polybiusEncrypt.put("C", "GX");
-		polybiusEncrypt.put("V", "GV");
-		polybiusEncrypt.put("S", "XA");
-		polybiusEncrypt.put("5", "XD");
-		polybiusEncrypt.put("Z", "XF");
-		polybiusEncrypt.put("W", "XG");
-		polybiusEncrypt.put("7", "XX");
-		polybiusEncrypt.put("B", "XV");
-		polybiusEncrypt.put("J", "VA");
-		polybiusEncrypt.put("9", "VD");
-		polybiusEncrypt.put("U", "VF");
-		polybiusEncrypt.put("T", "VG");
-		polybiusEncrypt.put("I", "VX");
-		polybiusEncrypt.put("8", "VV");
-		polybiusEncrypt.put("-", "YA");
-		polybiusEncrypt.put(".", "YD");
-		polybiusEncrypt.put("(", "YF");
-		polybiusEncrypt.put(")", "YG");
-		polybiusEncrypt.put(",", "YX");
-		polybiusEncrypt.put("?", "YV");
-		polybiusEncrypt.put("!", "YY");
-		polybiusEncrypt.put(";", "AY");
-		polybiusEncrypt.put(":", "DY");
-		polybiusEncrypt.put("_", "FY");
-		polybiusEncrypt.put("=", "XY");
-		polybiusEncrypt.put("*", "VY");
-		polybiusEncrypt.put("\"", "AZ"); 
-		polybiusEncrypt.put(" ", "DZ"); 
-		polybiusEncrypt.put("&", "FZ"); 
-		polybiusEncrypt.put("'", "GZ");
-		polybiusEncrypt.put("|", "XZ"); 
-		polybiusEncrypt.put("~", "VZ");
-		polybiusEncrypt.put("/", "GY");
-		polybiusEncrypt.put("#", "YZ");
-		polybiusEncrypt.put("£", "ZA");
-		polybiusEncrypt.put("$", "ZF");
-		polybiusEncrypt.put("<", "ZG");
-		polybiusEncrypt.put(">", "ZX");
-		polybiusEncrypt.put("@", "ZF");
-		polybiusEncrypt.put("~", "ZY");
-		polybiusEncrypt.put("^", "ZZ");
+		polybiusEncrypt.put('P', "AA");
+		polybiusEncrypt.put('H', "AD");
+		polybiusEncrypt.put('0', "AF");
+		polybiusEncrypt.put('Q', "AG");
+		polybiusEncrypt.put('G', "AX");
+		polybiusEncrypt.put('6', "AV");
+		polybiusEncrypt.put('4', "DA");
+		polybiusEncrypt.put('M', "DD");
+		polybiusEncrypt.put('E', "DF");
+		polybiusEncrypt.put('A', "DG");
+		polybiusEncrypt.put('1', "DX");
+		polybiusEncrypt.put('Y', "DV");
+		polybiusEncrypt.put('L', "FA");
+		polybiusEncrypt.put('2', "FD");
+		polybiusEncrypt.put('N', "FF");
+		polybiusEncrypt.put('O', "FG");
+		polybiusEncrypt.put('F', "FX");
+		polybiusEncrypt.put('D', "FV");
+		polybiusEncrypt.put('X', "GA");
+		polybiusEncrypt.put('K', "GD");
+		polybiusEncrypt.put('R', "GF");
+		polybiusEncrypt.put('3', "GG");
+		polybiusEncrypt.put('C', "GX");
+		polybiusEncrypt.put('V', "GV");
+		polybiusEncrypt.put('S', "XA");
+		polybiusEncrypt.put('5', "XD");
+		polybiusEncrypt.put('Z', "XF");
+		polybiusEncrypt.put('W', "XG");
+		polybiusEncrypt.put('7', "XX");
+		polybiusEncrypt.put('B', "XV");
+		polybiusEncrypt.put('J', "VA");
+		polybiusEncrypt.put('9', "VD");
+		polybiusEncrypt.put('U', "VF");
+		polybiusEncrypt.put('T', "VG");
+		polybiusEncrypt.put('I', "VX");
+		polybiusEncrypt.put('8', "VV");
+		polybiusEncrypt.put('-', "YA");
+		polybiusEncrypt.put('.', "YD");
+		polybiusEncrypt.put('(', "YF");
+		polybiusEncrypt.put(')', "YG");
+		polybiusEncrypt.put(',', "YX");
+		polybiusEncrypt.put('?', "YV");
+		polybiusEncrypt.put('!', "YY");
+		polybiusEncrypt.put(';', "AY");
+		polybiusEncrypt.put(':', "DY");
+		polybiusEncrypt.put('_', "FY");
+		polybiusEncrypt.put('=', "XY");
+		polybiusEncrypt.put('*', "VY");
+		polybiusEncrypt.put('\"', "AZ"); 
+		polybiusEncrypt.put(' ', "DZ"); 
+		polybiusEncrypt.put('&', "FZ"); 
+		polybiusEncrypt.put('\'', "GZ");
+		polybiusEncrypt.put('|', "XZ"); 
+		polybiusEncrypt.put('~', "VZ");
+		polybiusEncrypt.put('/', "GY");
+		polybiusEncrypt.put('#', "YZ");
+		polybiusEncrypt.put('£', "ZA");
+		polybiusEncrypt.put('$', "ZF");
+		polybiusEncrypt.put('<', "ZG");
+		polybiusEncrypt.put('>', "ZX");
+		polybiusEncrypt.put('@', "ZF");
+		polybiusEncrypt.put('~', "ZY");
+		polybiusEncrypt.put('^', "ZZ");
 	}
 }
 

@@ -36,7 +36,7 @@ public class ColumnarTransposition {
 	}
 
 	// Initialize Matrix
-	// Big O: Best = 3*O(N). Worst = 2*0(N) + 0(N^2).
+	// Big O: Best = 3*O(N). Worst = 2*0(N) + 0(N^2). O(my algo)
 	// This method has two for loops which makes it O(N^2) of the bat.
 	// The extra sort method at the bottom would make it O(N^3). Even 
 	// if for some reason the keyword happened to be already alphebetized
@@ -79,8 +79,7 @@ public class ColumnarTransposition {
 		int count = 0;
 
 		while (count < line.length()) {
-			matrix.get(j).getChars().add(line.charAt(count));
-			count++;
+			matrix.get(j).getChars().add(line.charAt(count++));
 		}
 	}
 
