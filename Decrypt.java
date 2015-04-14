@@ -16,6 +16,9 @@ import java.util.Map;
  * the decrypted characters from the polybius square and the columnar transosition object which holds the matrix 
  * and allows us to perform operations on like columnar transposition. There is also a variable for the message size which is needed
  * to properly perform reverse columnar transposition.
+ * 
+ * The Big O Notation is commented mostly inside other classes as this class just calls methods from other classes.
+ * 
  */
 
 public class Decrypt {
@@ -94,6 +97,7 @@ public class Decrypt {
 
 	// Further decrypts matrix using polybius square and then fills the character array 
 	// with decrypted text
+	// Big O: Best = O(N). Worst = 0(N)
 	public static void fillDecryptedCharsArray() {
 
 		// Calculates number of rows
@@ -182,6 +186,7 @@ public class Decrypt {
 	}
 
 	// Polybius Square Initialization
+	// Big O: Best = O(N). Worst = 0(N)*
 	private static void initPolybiusSquare() {
 		polybiusDecrypt.put("AA", "P"); 
 		polybiusDecrypt.put("AD", "H"); 
@@ -249,5 +254,10 @@ public class Decrypt {
 		polybiusDecrypt.put("ZZ", "^");
 
 	}
-
 }
+
+//Footnote: *
+//As a generalization a for loop that is implicitly O(N) as 
+//the statment inside the loop executes exactly the same amount
+//of times as the control variable i (Equivelant to N).
+//A for loop inside a for loop is generally O(N^2).

@@ -12,9 +12,10 @@ import org.junit.Test;
  * This class contains the main method which allows the user to enter a 
  * keyword and a file url and file name for encryption and decryption.
  * 
- * The second method is a JUNIT test method that has various assertations to check that
+ * The second method is a JUnit test method that has various assertations to check that
  * the program is encrypting/decrypting correctly. It uses the book war and peace to
  * perform these tests.
+ * 
  */
 
 public class TestRunner {
@@ -159,11 +160,13 @@ public class TestRunner {
 		Character[] expectedCipherTest = {'G', 'X', 'A', 'D', 'D', 'G', 'A', 'A', 'V', 'G', 'D', 'F', 'G', 'F', 'D', 'Z'};
 		String[] decryptedFirstLineTest = {"C", "H", "A", "P", "T", "E", "R", " "};
 
+		// Big O: O(N) = Best & Worst*
 		// Polybius Square encryption test
 		for (int i = 0; i < expectedCipherTest.length -1; i++) {
 			assertThat(Encrypt.getEncryptedChars().get(i), is(expectedCipherTest[i]));
 		}
 
+		// Big O: O(N) = Best & Worst*
 		// Reverse Transpostion test
 		int count = 0;
 		for (int i = 0; count < expectedCipherTest.length -1; i++) {
@@ -171,10 +174,16 @@ public class TestRunner {
 				assertThat(Decrypt.getDecryptCT().getMatrix().get(j).getChars().get(i), is(expectedCipherTest[count++]));
 			}
 		}
-
+		
+		// Big O: O(N) = Best & Worst*
 		// Final decrypted chars text 
 		for (int i = 0; i < decryptedFirstLineTest.length; i++) {
 			assertThat(Decrypt.getDecryptedChars().get(i), is(decryptedFirstLineTest[i]));
 		}	
 	}
 }
+
+// Footnote: *
+// As a generalization a for loop that is implicitly O(N) as 
+// the statment inside the loop executes exactly the same amount
+// of times as the control variable i (Equivelant to N).

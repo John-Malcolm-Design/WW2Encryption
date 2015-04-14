@@ -16,6 +16,9 @@ import java.util.Map;
  * This class contains the HashMap used for the polybius square, the character ArrayList which will be filled with
  * the encrypted characters from the polybius square and the columnar transosition object which holds the matrix 
  * and allows us to perform operations on like columnar transposition.
+ * 
+ * The Big O Notation is commented mostly inside other classes as this class just calls methods from other classes.
+ * 
  */
 
 public class Encrypt {
@@ -70,6 +73,10 @@ public class Encrypt {
 		encryptCT.writeToFile(fileName);
 	}
 
+	// Big O: Best = O(log(n)). Worst = O(log(n))
+	// The rational behind this being O(log(n)) is that it contains searching of 
+	// a hashmap which would be O(log(n)) and would be the slowest of all the big O
+	// notations for the various expressions in this method.
 	public static void encryptLine(String line) {
 		// Splits into Words, wherever there are spaces and puts words into array
 		String[] words = line.split(" ");
@@ -92,6 +99,7 @@ public class Encrypt {
 	}
 
 	// Encrypts each letter by getting the string from the polybius.
+	// Big O: Best = O(N), Worst = O(N)
 	public static void encryptLetter(char letter) {
 		String current = polybiusEncrypt.get(Character.toString(letter).toUpperCase().trim());
 		encryptedChars.add(current.charAt(0));
@@ -99,6 +107,7 @@ public class Encrypt {
 	}
 
 	// Polybius Square Initialization
+	// Big O: Best = O(N). Worst = 0(N)*
 	public static void initPolybiusSquare() {
 		polybiusEncrypt.put("P", "AA");
 		polybiusEncrypt.put("H", "AD");
@@ -165,3 +174,9 @@ public class Encrypt {
 		polybiusEncrypt.put("^", "ZZ");
 	}
 }
+
+//Footnote: *
+//As a generalization a for loop that is implicitly O(N) as 
+//the statment inside the loop executes exactly the same amount
+//of times as the control variable i (Equivelant to N).
+//A for loop inside a for loop is generally O(N^2).

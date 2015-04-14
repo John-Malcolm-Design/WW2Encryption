@@ -15,6 +15,7 @@ import java.util.List;
  * This class contains methods for columnar transposition and also for printing to file cipher text and decrypted text.
  * Columnar transpositions objects are created for both encryption and decryption
  * this approach is OO and DRY and helps keep the code more understandable.
+ * 
  */
 
 public class ColumnarTransposition {
@@ -35,6 +36,12 @@ public class ColumnarTransposition {
 	}
 
 	// Initialize Matrix
+	// Big O: Best = 3*O(N). Worst = 2*0(N) + 0(N^2).
+	// This method has two for loops which makes it O(N^2) of the bat.
+	// The extra sort method at the bottom would make it O(N^3). Even 
+	// if for some reason the keyword happened to be already alphebetized
+	// the bubble sort would have to at run once. Worst case is the bubble 
+	// sort would have to run more than once.
 	public void initializeMatrix()  {
 		
 		// Fills two arraylists with the keyword
@@ -53,7 +60,9 @@ public class ColumnarTransposition {
 		Collections.sort(sortedKeyArray);
 	}
 
-	// Encryption - Fills Matrix with values from the polybius square (character array from encryption class)
+	// Fills Matrix for encrption with values from the polybius square (character array from encryption class)
+	// Big O: Best = O(N). Worst = 0(N)
+	// The statement inside the for loop runs as many times as there are characteres in the character array.
 	public void fillMatrix() {
 		int count = 0;
 		while (count < (Encrypt.getEncryptedChars().size())) {
@@ -62,8 +71,10 @@ public class ColumnarTransposition {
 			}
 		}
 	}
-
-	// Decryption -  Fills Matrix with cipher text from file
+	
+	// Fills Matrix with cipher text from file (decryption)
+	// Big O: Best = O(N). Worst = 0(N)
+	// The statement inside the for loop runs as many times as there are characteres in the cipher text file.
 	public void fillMatrix(String line, int j) {
 		int count = 0;
 
@@ -77,6 +88,7 @@ public class ColumnarTransposition {
 	// The index values should be that of the sorted keyword not the original.
 	// After setting the index values to that of the sorted keyword we can 
 	// do the reverse transposition by sorting numberically.
+	// Big O: Best = O(N^2). Worst = 0(N^2)*
 	public void setCorrectIndexValues() {
 		for (int i = 0; i < keyArray.size(); i++) {
 			for (int j = 0; j < keyArray.size(); j++) {
@@ -89,16 +101,20 @@ public class ColumnarTransposition {
 	}
 
 	// Used for Columnar Transposition for encryption
+	// Big O: See method inside TransposeComparator class
 	public void transpose() {
 		Collections.sort(matrix, new TransposeComparator());
 	}
 
 	// Used for Columnar Transposition for decryption
+	// Big O: See method inside ReverseTransposeComparator class
 	public void reverseTranspose() {
 		Collections.sort(matrix, new ReverseTransposeComparator());
 	}
 
 	// Writes cipher text to file
+	// Big O: Best = O(N). Worst = 0(N)
+	// The statement inside the for loops runs as many times as there are characteres in the matrix.
 	public void writeToFile(String fileName) throws FileNotFoundException {
 		PrintWriter out = new PrintWriter(fileName + ".txt");
 		for (int i = 0; i < key.length(); i++) {
@@ -111,6 +127,8 @@ public class ColumnarTransposition {
 	}
 
 	// Writes decrypted text to file
+	// Big O: Best = O(N). Worst = 0(N)
+	// The statement inside the for loop runs as many times as there are characteres in the arraylist.
 	public void writeToFileDecrypted(String fileName) throws FileNotFoundException {
 		PrintWriter out = new PrintWriter(fileName + ".txt");
 		for (int i = 0; i < Decrypt.getDecryptedChars().size(); i++) {
@@ -119,3 +137,9 @@ public class ColumnarTransposition {
 		out.close();
 	}
 }
+
+// Footnote: *
+// As a generalization a for loop that is implicitly O(N) as 
+// the statment inside the loop executes exactly the same amount
+// of times as the control variable i (Equivelant to N).
+// A for loop inside a for loop is generally O(N^2).

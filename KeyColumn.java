@@ -7,6 +7,8 @@ import java.util.*;
  * 
  * This class is used to create the columns in the matrix.
  * Included an ArrayList for the characters an index variable a key character variable.
+ * 
+ * All methods are Big O: Best = O(N). Worst = 0(N) (see footnote*)
  */
 
 public class KeyColumn {
@@ -25,6 +27,7 @@ public class KeyColumn {
 	// Getters & Setters
 	
 	// Get Key Character
+	
 	public char getKeyCharacter() {
 		return keyCharacter;
 	}
@@ -54,3 +57,9 @@ public class KeyColumn {
 		this.chars = chars;
 	}
 }
+
+//Footnote: *
+//As a generalization a for loop that is implicitly O(N) as 
+//the statment inside the loop executes exactly the same amount
+//of times as the control variable i (Equivelant to N).
+//A for loop inside a for loop is generally O(N^2).

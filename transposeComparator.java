@@ -7,6 +7,8 @@ import java.util.Comparator;
  * 
  * Implement Comparator and used for columnar tranposition during encryption.
  * 
+ * Big O: Best = O(N^2), Worst = O(N^2) (see footnote)
+ * 
  */
 
 public class TransposeComparator implements Comparator<KeyColumn> {
@@ -26,3 +28,9 @@ public class TransposeComparator implements Comparator<KeyColumn> {
 		return 0;
 	}
 }
+
+//Footnote: *
+//As a generalization a for loop that is implicitly O(N) as 
+//the statment inside the loop executes exactly the same amount
+//of times as the control variable i (Equivelant to N).
+//A for loop inside a for loop is generally O(N^2).
