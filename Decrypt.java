@@ -130,8 +130,7 @@ public class Decrypt {
 			if (messageSize % decryptCT.getMatrix().size() != 0) {
 				int p = 0;
 				while (decryptCT.getMatrix().get(p).getChars().size() == (numberOfRows +1) && p < decryptCT.getMatrix().size()) {
-					keysOddNumber.add(decryptCT.getMatrix().get(p).getChars().get(count));
-					p++;
+					keysOddNumber.add(decryptCT.getMatrix().get(p++).getChars().get(count));
 				}
 			}
 
@@ -165,9 +164,7 @@ public class Decrypt {
 			if (messageSize % decryptCT.getMatrix().size() != 0) {
 				int p = 0;
 				while (decryptCT.getMatrix().get(p).getChars().size() == (numberOfRows +1) && p < decryptCT.getMatrix().size()) {
-					lastRow.add(decryptCT.getMatrix().get(p).getChars().get(count));
-					p++;
-
+					lastRow.add(decryptCT.getMatrix().get(p++).getChars().get(count));
 				}
 				
 				// Adds text from last row through polybius square 
